@@ -1,108 +1,111 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Card Swap</title>
-<style>
+  <head>
+    <meta charset="utf-8">
+    <title>Card Swap</title>
+    <style>
 body {
-    background-image: url(static/Cindy.png);
-    background-position: right top;
-    background-repeat: no-repeat;
+  background-image: url(static/Cindy.png);
+  background-position: right top;
+  background-repeat: no-repeat;
 }
 
-
 .cardlist {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	font-size: large;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: large;
 }
 
 #newcard {
-	position: absolute;
-	bottom: 1em;
-	left: 1em;
-	background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 #refresh {
-	position: absolute;
-	top: 1em;
-	right: 1em;
+  position: absolute;
+  top: 1em;
+  right: 1em;
 }
 
 li {
-	border-bottom: 1px solid #ccc;
-	display: block;
-	padding: 0.5em;
+  border-bottom: 1px solid #ccc;
+  display: block;
+  padding: 0.5em;
 }
 
 li:last-child {
-	border: none;
-   }
+  border: none;
+}
 
 .chosen {
-    background: rgba(100, 240, 100, 0.5);
+  background: rgba(100, 240, 100, 0.5);
 }
 
 .chosen:hover {
-	background: rgba(80, 190, 90, 0.5)
-   }
+  background: rgba(80, 190, 90, 0.5)
+}
 
 .others {
-	background: rgba(255, 255, 255, 0.5)
+  background: rgba(255, 255, 255, 0.5)
 }
 
 .others:hover {
-	background: rgba(225, 225, 225, 0.5)
-   }
-
-   .delete {
-	   float: right;
-   }
- 
-li a {
-	text-decoration: none;
+  background: rgba(225, 225, 225, 0.5)
 }
-</style>
-    </head>
-    <body>
-        <h2>Choose Card</h2>
-        <ul class="cardlist" id="cards">
-	    <!-- <li>name: display_id [card_id]</li> -->
-            {% for card in list %}
-                {% if card['id'] == chosen %}
-	        <li class="chosen">
-	        {% else %}
-                <li class="others">
-                {% endif %}
-		<a href="card_{{ card['id'] }}">
-                        {{ card['name'] }}: {{ card['disp'] }} [{{ card['id'] }}]
-                </a>
-                <a href="delete_{{ card['id']}}" class="delete">X</a>
-                 </li>
-            {% endfor %}
-        </ul>
-        <form method="post" id="newcard">
-            <fieldset>
-                <legend>New Card</legend>
-                Name:<br>
-                <input type="text" name="name" required><br>
-                Printed ID:<br>
-		<input type="text" name="display_id"
-		       placeholder="(on back or ingame)"
-		       inputmode="verbatim" pattern="[a-zA-Z0-9]{16}"
-		       title="16 alphanumeric characters"><br>
-                Internal ID:<br>
-		<input type="text" name="card_id"
-		       placeholder="E004..."
-		       inputmode="verbatim" pattern="[a-zA-Z0-9]{16}"
-		       title="16 alphanumeric characters"><br>
-                Autofill ID? <input type="checkbox" name="autofill" checked>
-                <input type="submit" value="Submit"><br>
-            </fieldset>
-        </form>
-        <a href="/" id="refresh">refresh</a>
-    </body>
+
+.delete {
+  float: right;
+}
+
+li a {
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+    <h2>Choose Card</h2>
+    <ul class="cardlist" id="cards">
+      {% for card in list %}
+        {% if card['id'] == chosen %}
+          <li class="chosen">
+        {% else %}
+          <li class="others">
+        {% endif %}
+            <a href="card_{{ card['id'] }}">
+              {{ card['name'] }}: {{ card['disp'] }} [{{ card['id'] }}]
+            </a>
+            <a href="delete_{{ card['id']}}" class="delete">X</a>
+          </li>
+        {% endfor %}
+    </ul>
+    <form method="post" id="newcard">
+      <fieldset>
+        <legend>New Card</legend>
+        Name:<br>
+        <input type="text" name="name" required><br>
+        Printed ID:<br>
+        <input type="text"
+               name="display_id"
+               placeholder="(on back or ingame)"
+               inputmode="verbatim"
+               pattern="[a-zA-Z0-9]{16}"
+               title="16 alphanumeric characters"><br>
+        Internal ID:<br>
+        <input type="text"
+               name="card_id"
+               placeholder="E004..."
+               inputmode="verbatim"
+               pattern="[a-zA-Z0-9]{16}"
+               title="16 alphanumeric characters"><br>
+        Autofill ID? <input type="checkbox"
+                            name="autofill" checked>
+        <input type="submit" value="Submit"><br>
+      </fieldset>
+    </form>
+    <a href="/" id="refresh">refresh</a>
+  </body>
 </html>
 
