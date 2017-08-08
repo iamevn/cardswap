@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, request, redirect
-import json, os, requests, re
+import json, os, requests, re, sys
 
-app = Flask(__name__)
+basepath = os.path.dirname(sys.executable)
+cardpath = os.path.join(basepath, "card0.txt")
+datapath = os.path.join(basepath, "cards.json")
+
+app = Flask(__name__, root_path = basepath)
 
 chosen = None
 
@@ -37,11 +41,11 @@ def new_card(name, id, disp, fill):
         l.append({'name': name, 'id': id, 'disp': disp})
     write_cards(l)
 
-def createtxt(id, path="card0.txt"):
+def createtxt(id, path=cardpath):
     with open(path, mode='w') as fp:
         fp.write(id)
 
-def read_cards(fname = 'cards.json'):
+def read_cards(fname = datapath):
     """return list of card dicts"""
     if os.path.isfile(fname):
         with open(fname, mode='r') as fp:
@@ -50,7 +54,7 @@ def read_cards(fname = 'cards.json'):
     else:
         return []
 
-def write_cards(l, fname = 'cards.json'):
+def write_cards(l, fname = datapath):
     with open(fname, mode='w') as fp:
         json.dump(l, fp)
 
@@ -75,7 +79,7 @@ def cardID2dispID(id):
         return match
 
 if __name__ == '__main__':
-    if os.path.isfile("card0.txt"):
-        with open("card0.txt") as fp:
+    if os.path.isfile(cardpath):
+        with open(cardpath) as fp:
             chosen = fp.read()
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host = '0.0.0.0', use_evalex=False)
